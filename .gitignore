@@ -1,0 +1,39 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+myvenv/
+venv/
+.env/
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.tmp
+
+# Sensitive configs
+db_config.ini
+*.env
+*.ini
+
+# Testing / Coverage
+.coverage
+htmlcov/
+.cache/
+
+# Byte-compiled / build
+build/
+dist/
+*.egg-info/
+
+*.ini
