@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # # main.py (entry)
 # from Lib.AuthLib import AuthLib
 # from Screens.doctor_screen import DoctorScreen
