@@ -13,7 +13,7 @@ class AppointmentDao:
                JOIN TblPatient p ON a.PatientId = p.PatientId
                WHERE a.DoctorId = %s AND a.AppointmentDate = CURDATE() AND a.IsActive = 1
                ORDER BY a.AppointmentTime"""
-        return self.db.fetch_all(q, (doctor_id,))
+        return self.db.fetch_all(q, (doctor_id,))\
 
     def get_appointment_by_id(self, appointment_id):
         q = "SELECT * FROM TblAppointment WHERE AppointmentId = %s"

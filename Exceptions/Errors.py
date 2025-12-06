@@ -1,4 +1,3 @@
-# Exceptions/Errors.py
 class ValidationError(Exception):
     """Raised when input validation fails."""
     pass
@@ -12,5 +11,9 @@ class DBError(Exception):
     pass
 
 class ConflictError(Exception):
-    """Raised when a business rule conflict occurs (e.g., slot already taken)."""
+    """Raised when a business rule conflict occurs (slot clashes, etc)."""
+    pass
+
+class PermissionError(Exception):
+    """Raised when a user tries to access something they shouldn't."""
     pass

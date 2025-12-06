@@ -11,7 +11,7 @@ class MedicineStockDao:
                (MedicineId, BatchNo, StockInHand, ExpiryDate, CreateDate, IsActive)
                VALUES (%s, %s, %s, %s, NOW(), 1)"""
         return self.db.execute(q, (med_id, batch_no, qty, expiry))
-
+         
     def update_stock_after_dispense(self, med_id, qty):
         """Deduct qty from earliest expiry first (FIFO)."""
         select_q = """SELECT * FROM TblMedicineStock 
