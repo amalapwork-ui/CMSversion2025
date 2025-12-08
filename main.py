@@ -99,12 +99,12 @@ def main():
             LabTechScreen().menu()
 
         else:
-            print("\n⚠ Unknown role assigned. Contact admin.")
+            print("\n Unknown role assigned. Contact admin.")
         
         # -------- AFTER LOGOUT ----------
         print("\nYou have been logged out.")
-        again = input("Login again? (y/n): ").strip().lower()
-        if again != 'y':
+        l_again = input("Login again? (y/n): ").strip().lower()
+        if l_again != 'y':
             break
 
     print("\nThank you for using CMS. Goodbye!")

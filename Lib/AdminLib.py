@@ -3,6 +3,7 @@ from Dao.StaffDao import StaffDao
 from Dao.RoleDao import RoleDao
 from Dao.DoctorDao import DoctorDao
 from Dao.SpecializationDao import SpecializationDao
+from Exceptions.Errors import ValidationError
 
 class AdminLib:
     def __init__(self):
@@ -56,9 +57,19 @@ class AdminLib:
     # ----------- DOCTOR MANAGEMENT ------------
     def create_doctor_profile(self, staff_id, specialization_id, fee):
         return self.doctor_dao.create_doctor(staff_id, specialization_id, fee)
-
+    
+        
     def update_doctor(self, doctor_id, specialization_id, fee):
-        self.doctor_dao.update_doctor(doctor_id, specialization_id, fee)
+        try:
+            self.doctor_dao.update_doctor(doctor_id, specialization_id, fee)
+        except ValidationError:
+            raise
+        except Exception as e:
+            raise ValidationError(f"Failed to update doctor: {e}")
+
+
+    # def update_doctor(self, doctor_id, specialization_id, fee):
+    #     self.doctor_dao.update_doctor(doctor_id, specialization_id, fee)
 
     def deactivate_doctor(self, doctor_id):
         self.doctor_dao.deactivate_doctor(doctor_id)

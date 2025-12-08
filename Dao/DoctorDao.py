@@ -1,5 +1,6 @@
 # Dao/DoctorDao.py
 from DbConnection.ConnectionDb import ConnectionDb
+from Exceptions.Errors import DBError, ValidationError
 
 class DoctorDao:
     def __init__(self):
@@ -27,14 +28,28 @@ class DoctorDao:
         """
         return self.db.execute(q, (staff_id, specialization_id, fee))
 
+    # def update_doctor(self, doctor_id, specialization_id, fee):
+    #     q = """
+    #     UPDATE TblDoctor SET 
+    #         SpecializationId = %s,
+    #         ConsultationFee = %s
+    #     WHERE DoctorId = %s
+    #     """
+    #     self.db.execute(q, (specialization_id, fee, doctor_id))
     def update_doctor(self, doctor_id, specialization_id, fee):
         q = """
-        UPDATE TblDoctor SET 
-            SpecializationId = %s,
-            ConsultationFee = %s
-        WHERE DoctorId = %s
+            UPDATE TblDoctor SET 
+                SpecializationId = %s,
+                ConsultationFee = %s
+            WHERE DoctorId = %s
         """
-        self.db.execute(q, (specialization_id, fee, doctor_id))
+        try:
+            self.db.execute(q, (specialization_id, fee, doctor_id))
+        except DBError as e:
+            # Handle foreign key constraint failure
+            if "foreign key constraint fails" in str(e).lower():
+                raise ValidationError("Invalid Specialization ID. Please choose a valid specialization.")
+            raise
 
     def deactivate_doctor(self, doctor_id):
         q = "UPDATE TblDoctor SET IsActive = 0 WHERE DoctorId = %s"
