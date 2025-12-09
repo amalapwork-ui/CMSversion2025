@@ -17,3 +17,6 @@ class ConflictError(Exception):
 class PermissionError(Exception):
     """Raised when a user tries to access something they shouldn't."""
     pass
+class AppError(Exception):
+    """Base class for all application-specific errors."""
+    pass

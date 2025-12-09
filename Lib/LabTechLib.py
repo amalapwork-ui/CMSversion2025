@@ -7,8 +7,8 @@ class LabTechLib:
         self.lab_dao = LabTestDao()
         self.pres_dao = LabTestPrescriptionDao()
 
-    def add_lab_test(self, name, ref_range, category_id, amount):
-        return self.lab_dao.add_lab_test(name, ref_range, category_id, amount)
+    def add_lab_test(self, name, ref_range, amount):
+        return self.lab_dao.add_lab_test(name, ref_range, amount)
 
     def view_pending_tests(self):
         return self.pres_dao.get_pending_tests()

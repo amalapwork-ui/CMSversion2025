@@ -9,8 +9,8 @@ class PharmacistLib:
         self.stock_dao = MedicineStockDao()
         self.prescription_dao = PrescriptionDao()
 
-    def add_new_medicine(self, name, expiry_date, category_id):
-        return self.med_dao.add_medicine(name, expiry_date, category_id)
+    def add_new_medicine(self, name, expiry_date):
+        return self.med_dao.add_medicine(name, expiry_date)
 
     def update_stock(self, med_id, batch, qty, expiry):
         return self.stock_dao.add_stock(med_id, batch, qty, expiry)

@@ -5,10 +5,10 @@ class LabTestDao:
     def __init__(self):
         self.db = ConnectionDb.get_instance()
 
-    def add_lab_test(self, test_name, reference_range, category_id, amount):
-        q = """INSERT INTO TblLabTest (TestName, ReferenceRange, LabTestCategoryId, Amount, IsActive)
-               VALUES (%s, %s, %s, %s, 1)"""
-        return self.db.execute(q, (test_name, reference_range, category_id, amount))
+    def add_lab_test(self, test_name, reference_range, amount):
+        q = """INSERT INTO TblLabTest (TestName, ReferenceRange, Amount, IsActive)
+               VALUES (%s, %s, %s, 1)"""
+        return self.db.execute(q, (test_name, reference_range, amount))
 
     def get_all_tests(self):
         q = "SELECT * FROM TblLabTest WHERE IsActive = 1"

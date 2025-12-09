@@ -78,8 +78,19 @@ class StaffDao:
         q = "UPDATE TblStaff SET IsActive = 1 WHERE StaffId = %s"
         self.db.execute(q, (staff_id,))
 
+    # def get_all_staff(self):
+    #     q = "SELECT * FROM TblStaff"
+    #     return self.db.fetch_all(q)
+
     def get_all_staff(self):
-        q = "SELECT * FROM TblStaff"
+        """Fetches staff details along with their Role Name."""
+        q = """
+        SELECT s.StaffId, s.FullName, s.Gender, s.JoiningDate, s.MobileNumber, s.IsActive, 
+               r.RoleName
+        FROM TblStaff s
+        JOIN TblRole r ON s.RoleId = r.RoleId
+        ORDER BY s.StaffId
+        """
         return self.db.fetch_all(q)
 
     def get_staff_by_id(self, staff_id):

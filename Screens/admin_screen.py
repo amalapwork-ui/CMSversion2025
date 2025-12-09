@@ -33,89 +33,135 @@ class AdminScreen:
 
     # ---------------- STAFF -------------------
     def manage_staff(self):
-        print("\n1. Add Staff\n2. Update Staff\n3. Deactivate\n4. Reactivate\n5. View All")
-        ch = input("Choice: ")
+        while True:
+            print("\n1. Add Staff\n2. Update Staff\n3. Deactivate Staff\n4. Reactivate Staff\n5. View All Staff Profiles\n 6. Back")
+            ch = input("Choice: ")
+            try:
+                if ch == '1':
+                    fullname = input("Full Name: ")
+                    gender = input("Gender: ")
+                    joining = input("Joining Date (YYYY-MM-DD): ")
+                    mobile = input("Mobile: ")
+                    username = input("Username: ")
+                    password = input("Password: ")
+                    role_id = input("Role ID: ")
+                    sid = self.lib.add_staff(fullname, gender, joining, mobile, username, password, role_id)
+                    print("Created Staff ID:", sid)
 
-        if ch == '1':
-            fullname = input("Full Name: ")
-            gender = input("Gender: ")
-            joining = input("Joining Date (YYYY-MM-DD): ")
-            mobile = input("Mobile: ")
-            username = input("Username: ")
-            password = input("Password: ")
-            role_id = input("Role ID: ")
-            sid = self.lib.add_staff(fullname, gender, joining, mobile, username, password, role_id)
-            print("Created Staff ID:", sid)
+                elif ch == '2':
+                    sid = input("Staff ID: ")
+                    fullname = input("New Name: ")
+                    gender = input("New Gender: ")
+                    mobile = input("New Mobile: ")
+                    role_id = input("New Role ID: ")
+                    self.lib.update_staff(sid, fullname, gender, mobile, role_id)
+                    print("Updated Staff Profile")
 
-        elif ch == '2':
-            sid = input("Staff ID: ")
-            fullname = input("New Name: ")
-            gender = input("New Gender: ")
-            mobile = input("New Mobile: ")
-            role_id = input("New Role ID: ")
-            self.lib.update_staff(sid, fullname, gender, mobile, role_id)
-            print("Updated.")
+                elif ch == '3':
+                    sid = input("Staff ID: ")
+                    self.lib.deactivate_staff(sid)
+                    print("Deactivated Staff Profile")
 
-        elif ch == '3':
-            sid = input("Staff ID: ")
-            self.lib.deactivate_staff(sid)
-            print("Deactivated.")
+                elif ch == '4':
+                    sid = input("Staff ID: ")
+                    self.lib.reactivate_staff(sid)
+                    print("Reactivated Staff Profile")
 
-        elif ch == '4':
-            sid = input("Staff ID: ")
-            self.lib.reactivate_staff(sid)
-            print("Reactivated.")
-
-        elif ch == '5':
-            rows = self.lib.get_all_staff()
-            for r in rows:
-                print(r)
-
+                # elif ch == '5': 
+                #     rows = self.lib.get_all_staff()
+                #     if not rows:
+                #         print("No staff records found.")
+                #     else:
+                #         # 1. Print the Header
+                #         print(f"\n{'ID':<5} {'Name':<20} {'Gender':<8} {'Mobile':<15} {'Joined':<12} {'RoleID'}")
+                #         print("-" * 75) # A distinct separator line
+                        
+                #         # 2. Print the Rows
+                #         for r in rows:
+                #             print(f"{r['StaffId']:<5} {r['FullName']:<20} {r['Gender']:<8} {r['MobileNumber']:<15} {str(r['JoiningDate']):<12} {r['RoleId']}")
+                #         print("-" * 75)
+                elif ch == '5':
+                    rows = self.lib.get_all_staff()
+                    if not rows:
+                        print("No staff records found.")
+                    else:
+                        # 1. Update Header to show 'Role' instead of 'RoleID'
+                        print(f"\n{'ID':<5} {'Name':<20} {'Gender':<8} {'Mobile':<15} {'Joined':<12} {'Role'}")
+                        print("-" * 80)
+                        
+                        # 2. Update Row Printing
+                        for r in rows:
+                            # distinct 'Yes'/'No' for active status if you want, or just leave it out
+                            print(f"{r['StaffId']:<5} {r['FullName']:<20} {r['Gender']:<8} {r['MobileNumber']:<15} {str(r['JoiningDate']):<12} {r['RoleName']}")
+                        print("-" * 80)
+                elif ch == '6':
+                    break
+            except Exception as e:
+                print("Error: ",e)
     # ---------------- ROLES -------------------
     def manage_roles(self):
-        print("\n1. Add Role\n2. Update Role\n3. View All")
-        ch = input("Choice: ")
+        while True:
+            print("\n1. Add Role\n2. Update Role\n3. View All Roles\n4. Back")
+            ch = input("Choice: ")
+            try:
+                if ch == '1':
+                    name = input("Role name: ")
+                    rid = self.lib.add_role(name)
+                    print("Role created:", rid)
+                elif ch == '2':
+                    rid = input("Role ID: ")
+                    name = input("New Role Name: ")
+                    self.lib.update_role(rid, name)
+                    print("Updated Role details")
+                # elif ch == '3':
+                #     rows = self.lib.get_roles()
+                #     for r in rows:
+                #         print(r)
+                elif ch == '3':
+                    rows = self.lib.get_roles()
+                    if not rows:
+                        print("No roles defined.")
+                    else:
+                        # 1. Print Header
+                        print(f"\n{'ID':<5} {'Role Name':<20}")
+                        print("-" * 30)
+                        
+                        # 2. Print Rows
+                        for r in rows:
+                            print(f"{r['RoleId']:<5} {r['RoleName']:<20}")
+                        print("-" * 30)
+                elif ch == '4':
+                    break
 
-        if ch == '1':
-            name = input("Role name: ")
-            rid = self.lib.add_role(name)
-            print("Role created:", rid)
-        elif ch == '2':
-            rid = input("Role ID: ")
-            name = input("New Role Name: ")
-            self.lib.update_role(rid, name)
-            print("Updated.")
-        elif ch == '3':
-            rows = self.lib.get_roles()
-            for r in rows:
-                print(r)
+            except Exception as e:
+                print("Error: ", e)
 
-    # ---------------- SPECIALIZATION -------------------
-    # def manage_specializations(self):
-    #     print("\n1. Add\n2. Update\n3. Deactivate\n4. Reactivate\n5. View All")
-    #     ch = input("Choice: ")
+        # ---------------- SPECIALIZATION -------------------
+        # def manage_specializations(self):
+        #     print("\n1. Add\n2. Update\n3. Deactivate\n4. Reactivate\n5. View All")
+        #     ch = input("Choice: ")
 
-    #     if ch == '1':
-    #         name = input("Name: ")
-    #         sid = self.lib.add_specialization(name)
-    #         print("Created:", sid)
-    #     elif ch == '2':
-    #         sid = input("Spec ID: ")
-    #         name = input("New name: ")
-    #         self.lib.update_specialization(sid, name)
-    #         print("Updated.")
-    #     elif ch == '3':
-    #         sid = input("Spec ID: ")
-    #         self.lib.deactivate_specialization(sid)
-    #         print("Deactivated.")
-    #     elif ch == '4':
-    #         sid = input("Spec ID: ")
-    #         self.lib.reactivate_specialization(sid)
-    #         print("Reactivated.")
-    #     elif ch == '5':
-    #         rows = self.lib.get_all_specializations()
-    #         for r in rows:
-    #             print(r)
+        #     if ch == '1':
+        #         name = input("Name: ")
+        #         sid = self.lib.add_specialization(name)
+        #         print("Created:", sid)
+        #     elif ch == '2':
+        #         sid = input("Spec ID: ")
+        #         name = input("New name: ")
+        #         self.lib.update_specialization(sid, name)
+        #         print("Updated.")
+        #     elif ch == '3':
+        #         sid = input("Spec ID: ")
+        #         self.lib.deactivate_specialization(sid)
+        #         print("Deactivated.")
+        #     elif ch == '4':
+        #         sid = input("Spec ID: ")
+        #         self.lib.reactivate_specialization(sid)
+        #         print("Reactivated.")
+        #     elif ch == '5':
+        #         rows = self.lib.get_all_specializations()
+        #         for r in rows:
+        #             print(r)
 
     # ---------------- SPECIALIZATION -------------------
     def manage_specializations(self):
@@ -231,7 +277,8 @@ class AdminScreen:
             print("2. Update Doctor Profile")
             print("3. Deactivate Doctor")
             print("4. Reactivate Doctor")
-            print("5. Back")
+            print("5. View all Doctor profiles")
+            print("6. Back")
 
             ch = input("Choice: ").strip()
 
@@ -266,6 +313,19 @@ class AdminScreen:
                     print("Doctor reactivated.")
 
                 elif ch == '5':
+                    rows = self.lib.get_all_doctors()
+                    if not rows:
+                        print("No doctor profiles found.")
+                    else:
+                        print(f"\n{'ID':<5} {'Doctor Name':<20} {'Specialization':<20} {'Fee':<10} {'Active'}")
+                        print("-" * 70)
+                        for r in rows:
+                            # 'Yes' if IsActive is 1 else 'No' for cleaner output
+                            active_status = "Yes" if r['IsActive'] == 1 else "No"
+                            print(f"{r['DoctorId']:<5} {r['FullName']:<20} {r['SpecializationName']:<20} {r['ConsultationFee']:<10} {active_status}")
+                        print("-" * 70)
+
+                elif ch == '6':
                     break
 
                 else:

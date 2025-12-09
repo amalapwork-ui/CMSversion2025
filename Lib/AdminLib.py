@@ -3,7 +3,7 @@ from Dao.StaffDao import StaffDao
 from Dao.RoleDao import RoleDao
 from Dao.DoctorDao import DoctorDao
 from Dao.SpecializationDao import SpecializationDao
-from Exceptions.Errors import ValidationError
+from Exceptions.Errors import ValidationError, NotFoundError
 
 class AdminLib:
     def __init__(self):
@@ -54,8 +54,25 @@ class AdminLib:
     def get_all_specializations(self):
         return self.spec_dao.get_all_specializations()
 
+    # # ----------- DOCTOR MANAGEMENT ------------
+    # def create_doctor_profile(self, staff_id, specialization_id, fee):
+    #     return self.doctor_dao.create_doctor(staff_id, specialization_id, fee)
+
     # ----------- DOCTOR MANAGEMENT ------------
     def create_doctor_profile(self, staff_id, specialization_id, fee):
+        # Fetch the Staff details first
+        staff = self.staff_dao.get_staff_by_id(staff_id)
+        if not staff:
+            raise NotFoundError(f"Staff with ID {staff_id} not found.")
+
+        # Fetch the Role details for this staff
+        role = self.role_dao.get_role_by_id(staff['RoleId'])
+        
+        # Validation: Is this person actually a Doctor?
+        if not role or role['RoleName'].strip().lower() != 'doctor':
+            raise ValidationError(f"Staff member '{staff['FullName']}' has role '{role['RoleName']}', not 'Doctor'. Cannot create profile.")
+
+        # 4. If valid, proceed to create
         return self.doctor_dao.create_doctor(staff_id, specialization_id, fee)
     
         
@@ -76,3 +93,6 @@ class AdminLib:
 
     def reactivate_doctor(self, doctor_id):
         self.doctor_dao.reactivate_doctor(doctor_id)
+
+    def get_all_doctors(self):
+        return self.doctor_dao.get_all_doctors_detailed()
