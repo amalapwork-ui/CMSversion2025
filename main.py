@@ -20,7 +20,8 @@
 #         print("Invalid credentials.")
 #         return
 
-#     role = session.get('role_name', '').lower()
+#     role = session.get('role_name', '
+# ').lower()
 #     print(f"Welcome {session.get('full_name')} - Role: {session.get('role_name')}")
 
 #     if role == 'doctor':
